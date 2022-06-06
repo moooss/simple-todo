@@ -32,10 +32,6 @@ const TaskInput = styled.textarea`
   width: 100%;
   resize: none;
 
-  @media only screen and ${breakpoints.device.xs} {
-    min-height: 400px;
-  }
-
   ::placeholder {
     color: #666;
     font-weight: bold;

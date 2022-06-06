@@ -5,11 +5,10 @@ generator client {
   provider = "prisma-client-js"
 }
 
-datasource db {
-  provider = "sqlite"
-  url      = "file:./db.sqlite"
+datasource mydbsql {
+  provider = "mysql"
+  url = env("PRISMA_MYSQL_URL")
 }
-
 
 model Task {
   id         Int       @id @default(autoincrement())

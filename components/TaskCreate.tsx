@@ -70,6 +70,7 @@ const TaskCreate = () => {
       await createTask({ variables: { text } });
       setText('');
     } catch (err) {
+      console.log(err);
       toast.error('Sorry, something went wrong');
     }
   };

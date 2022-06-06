@@ -89,6 +89,7 @@ const Task = ({ task }: Props) => {
     try {
       deleteTask({ variables: { id: parseInt(task.id, 10) } });
     } catch (err) {
+      console.log(err);
       toast.error('Sorry, something went wrong');
     }
   };
@@ -100,6 +101,7 @@ const Task = ({ task }: Props) => {
       try {
         archiveTask({ variables: { id: parseInt(task.id, 10) } });
       } catch (err) {
+        console.log(err);
         toast.error('Sorry, something went wrong');
       }
     }, 400);

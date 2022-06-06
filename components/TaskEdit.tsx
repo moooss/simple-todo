@@ -79,6 +79,7 @@ const TaskEdit = ({ visible, setVisible, task }: Props) => {
       await updateTask({ variables: { id: parseInt(task.id), text } });
       setVisible(false);
     } catch (err) {
+      console.log(err);
       toast.error('Sorry, something went wrong');
     }
   };

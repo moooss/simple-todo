@@ -1,13 +1,32 @@
-This a Simple Todo app built with
+### Simple Todo
+
+Built with :
 
 - Next.js
 - Apollo (graphQL)
 - Prisma
 - Styles Component
 
-## Getting Started
+https://simple-todo-pink.vercel.app/
 
-Initiate the sqlite database by running `prisma migrate`
+### Run Simple Todo locally
+
+Create a local mysql database.
+
+Create a `.env` file at the project root.
+
+```bash
+touch .env
+```
+
+Copy the following in the `.env` file and replace the mysql connection string with your database configuration :
+
+```text
+NEXT_PUBLIC_APP_URL=https://simple-todo-pink.vercel.app/
+PRISMA_MYSQL_URL=mysql://USER:PASSWORD@HOST:PORT/DATABASE
+```
+
+Initialize the database :
 
 ```bash
 npx prisma migrate dev --name init

@@ -59,7 +59,7 @@ const TaskCreate = () => {
   const inputRef = useRef(null);
 
   const [createTask, { loading }] = useMutation(CREATE_TASK, {
-    refetchQueries: [{ query: GET_TASKS }, 'GetTasks'],
+    refetchQueries: [{ query: GET_TASKS }],
   });
 
   const handleOnFocus = () => {

@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import breakpoints from '../styles/breakpoints';
 import { useMutation } from '@apollo/client';
 import { ARCHIVE_TASK, GET_TASKS, DELETE_TASK } from '../pages/api/queries';
 import { Check, Trash } from 'react-feather';
-import TaskEdit from './TaskEdit';
 import { toast } from 'react-toastify';
-import breakpoints from '../styles/breakpoints';
+import TaskEdit from './TaskEdit';
+import { Draggable } from 'react-beautiful-dnd';
 
 const Checkbox = styled.div`
   width: 20px;
@@ -70,9 +71,10 @@ const Description = styled.div<{ strike: boolean }>`
 
 type Props = {
   task: Common.Task;
+  index: number;
 };
 
-const Task = ({ task }: Props) => {
+const Task = ({ task, index }: Props) => {
   const [editVisible, setEditVisible] = useState(false);
   const [strikeText, setStrikeText] = useState(false);
 
@@ -87,7 +89,7 @@ const Task = ({ task }: Props) => {
   const handleDelete = (event: any) => {
     event.stopPropagation();
     try {
-      deleteTask({ variables: { id: parseInt(task.id, 10) } });
+      deleteTask({ variables: { id: task.id } });
     } catch (err) {
       console.log(err);
       toast.error('Sorry, something went wrong');
@@ -99,7 +101,7 @@ const Task = ({ task }: Props) => {
     setStrikeText(true);
     setTimeout(() => {
       try {
-        archiveTask({ variables: { id: parseInt(task.id, 10) } });
+        archiveTask({ variables: { id: task.id } });
       } catch (err) {
         console.log(err);
         toast.error('Sorry, something went wrong');
@@ -112,18 +114,22 @@ const Task = ({ task }: Props) => {
   };
 
   return (
-    <Box onClick={handleEdit}>
-      <ColRight>
-        <Checkbox>
-          <Check color={'#fff'} size={12} role="button" aria-label="Finish Task" onClick={handleArchive} />
-        </Checkbox>
-      </ColRight>
-      <Description strike={strikeText}>{task.text}</Description>
-      <Actions>
-        <Trash color={'#333'} size={16} role="button" aria-label="Delete Task" onClick={handleDelete} />
-      </Actions>
-      <TaskEdit visible={editVisible} setVisible={setEditVisible} task={task} />
-    </Box>
+    <Draggable draggableId={`${task.id}`} index={index}>
+      {(provided) => (
+        <Box onClick={handleEdit} {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
+          <ColRight>
+            <Checkbox>
+              <Check color={'#fff'} size={12} role="button" aria-label="Finish Task" onClick={handleArchive} />
+            </Checkbox>
+          </ColRight>
+          <Description strike={strikeText}>{task.text}</Description>
+          <Actions>
+            <Trash color={'#333'} size={16} role="button" aria-label="Delete Task" onClick={handleDelete} />
+          </Actions>
+          <TaskEdit visible={editVisible} setVisible={setEditVisible} task={task} />
+        </Box>
+      )}
+    </Draggable>
   );
 };
 

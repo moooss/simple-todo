@@ -26,6 +26,14 @@ export const UPDATE_TASK = gql`
   }
 `;
 
+export const SET_TASK_POSITION = gql`
+  mutation SetTaskPosition($id: Int!, $position: Int!) {
+    setTaskPosition(id: $id, position: $position) {
+      id
+    }
+  }
+`;
+
 export const ARCHIVE_TASK = gql`
   mutation ArchiveTask($id: Int!) {
     archiveTask(id: $id) {

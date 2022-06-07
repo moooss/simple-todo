@@ -1,4 +1,4 @@
-import { getTasks, createTask, updateTask, archiveTask, deleteTask } from '../db';
+import { getTasks, createTask, setTaskPosition, updateTask, archiveTask, deleteTask } from '../db';
 
 type CreateTaskParams = {
   text: string;
@@ -7,6 +7,11 @@ type CreateTaskParams = {
 type UpdateTaskParams = {
   id: number;
   text: string;
+};
+
+type SetTaskPositionParams = {
+  id: number;
+  position: number;
 };
 
 type ArchiveTaskParams = {
@@ -29,6 +34,9 @@ export const resolvers = {
     },
     updateTask: async (_: undefined, { id, text }: UpdateTaskParams) => {
       return await updateTask(id, text);
+    },
+    setTaskPosition: async (_: undefined, { id, position }: SetTaskPositionParams) => {
+      return await setTaskPosition(id, position);
     },
     archiveTask: async (_: undefined, { id }: ArchiveTaskParams) => {
       return await archiveTask(id);

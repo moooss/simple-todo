@@ -9,16 +9,20 @@ import TaskCreate from '../components/TaskCreate';
 import TaskList from '../components/TaskList';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { resetServerContext } from 'react-beautiful-dnd';
 
 export async function getStaticProps() {
   const client = initializeApollo();
 
-  // data is fetched and cached by Apollo
+  // Data is fetched and cached by Apollo
   await client.query({
     query: GET_TASKS,
   });
 
-  // data is added to the state
+  // Avoid react-beautiful-dnd server/client mismatches
+  resetServerContext();
+
+  // Data is added to the state
   return addApolloState(client, {
     props: {},
     revalidate: 1,
@@ -30,6 +34,7 @@ const Home: NextPage = () => {
   const { data } = useQuery(GET_TASKS);
 
   const tasks = data?.tasks || [];
+
   return (
     <div className="app">
       <Head>

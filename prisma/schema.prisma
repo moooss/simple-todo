@@ -17,4 +17,5 @@ model Task {
   archivedAt DateTime?
   deletedAt  DateTime?
   text       String
+  position   Int?
 }

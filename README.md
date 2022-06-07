@@ -7,7 +7,7 @@ Built with :
 - Prisma
 - Styles Component
 
-https://simple-todo-pink.vercel.app/
+Live here : https://simple-todo-pink.vercel.app/
 
 ### Run Simple Todo locally
 
@@ -22,7 +22,7 @@ touch .env
 Copy the following in the `.env` file and replace the mysql connection string with your database configuration :
 
 ```text
-NEXT_PUBLIC_APP_URL=https://simple-todo-pink.vercel.app/
+NEXT_PUBLIC_APP_URL=http://localhost:3000/
 PRISMA_MYSQL_URL=mysql://USER:PASSWORD@HOST:PORT/DATABASE
 ```
 

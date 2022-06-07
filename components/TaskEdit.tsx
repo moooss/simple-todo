@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { useMutation } from '@apollo/client';
 import { GET_TASKS, UPDATE_TASK } from '../pages/api/queries';
 import { toast } from 'react-toastify';
-import breakpoints from '../styles/breakpoints';
 import Button from './Button';
 import Loader from 'react-spinners/ClipLoader';
 import Modal from 'react-modal';
@@ -56,7 +55,7 @@ const TaskEdit = ({ visible, setVisible, task }: Props) => {
   const [text, setText] = useState(task.text);
 
   const [updateTask, { loading }] = useMutation(UPDATE_TASK, {
-    refetchQueries: [{ query: GET_TASKS }, 'GetTasks'],
+    refetchQueries: [{ query: GET_TASKS }],
   });
 
   useEffect(() => {
@@ -72,7 +71,7 @@ const TaskEdit = ({ visible, setVisible, task }: Props) => {
 
   const handleSave = async () => {
     try {
-      await updateTask({ variables: { id: parseInt(task.id), text } });
+      await updateTask({ variables: { id: task.id, text } });
       setVisible(false);
     } catch (err) {
       console.log(err);

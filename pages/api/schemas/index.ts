@@ -2,11 +2,13 @@ import { gql } from 'apollo-server-micro';
 
 export const typeDefs = gql`
   type Task {
-    id: ID
+    id: Int!
     createdAt: String!
     updatedAt: String!
-    archivedAt: String!
+    archivedAt: String
+    deletedAt: String
     text: String!
+    porition: Int
   }
 
   type Query {
@@ -14,9 +16,10 @@ export const typeDefs = gql`
   }
 
   type Mutation {
-    createTask(text: String!): [Task]
-    updateTask(id: Int!, text: String!): [Task]
-    archiveTask(id: Int!): [Task]
-    deleteTask(id: Int!): [Task]
+    createTask(text: String!): Task
+    updateTask(id: Int!, text: String!): Task
+    setTaskPosition(id: Int!, position: Int!): Task
+    archiveTask(id: Int!): Task
+    deleteTask(id: Int!): Task
   }
 `;

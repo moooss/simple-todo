@@ -10,15 +10,15 @@ const StyledButton = styled.button<{ primary: boolean }>`
   cursor: pointer;
 
   :hover {
-    background-color: ${(props) => (props.primary ? '#ab2416' : '#f0f0f0')};
+    background-color: ${(props) => (props.primary ? '#ab2416' : '#efefef')};
   }
 `;
 
 type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
-  primary: boolean;
+  primary?: boolean;
 };
 
-const Header = ({ primary = true, ...rest }: Props) => {
+const Header = ({ primary = false, ...rest }: Props) => {
   return <StyledButton primary={primary} {...rest} />;
 };
 

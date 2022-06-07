@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import styled from 'styled-components';
 import { useMutation } from '@apollo/client';
 import { GET_TASKS, CREATE_TASK } from '../pages/api/queries';
@@ -42,15 +42,21 @@ const PreviewInput = styled.textarea<{ opened: boolean }>`
   }
 `;
 
-const StyledButton = styled(Button)`
+const Actions = styled.div`
   position: absolute;
   bottom: 10px;
   right: 10px;
 `;
 
+const StyledButton = styled(Button)`
+  margin-left: 0.5rem;
+`;
+
 const TaskCreate = () => {
   const [open, setOpen] = useState(false);
   const [text, setText] = useState('');
+
+  const inputRef = useRef(null);
 
   const [createTask, { loading }] = useMutation(CREATE_TASK, {
     refetchQueries: [{ query: GET_TASKS }, 'GetTasks'],
@@ -59,39 +65,49 @@ const TaskCreate = () => {
   const handleOnFocus = () => {
     setOpen(true);
   };
-  const handleOnBlur = () => {
-    setTimeout(() => {
-      setOpen(false);
-    }, 100);
-  };
 
   const handleSave = async () => {
+    setOpen(true);
+
+    if (text.trim().length === 0) {
+      return;
+    }
+
     try {
       await createTask({ variables: { text } });
-      setText('');
+      handleClose();
     } catch (err) {
       console.log(err);
       toast.error('Sorry, something went wrong');
     }
   };
+
+  const handleClose = () => {
+    setText('');
+    setOpen(false);
+  };
+
   return (
     <Box opened={open}>
       <PreviewInput
+        ref={inputRef}
         name="newTask"
         placeholder="Add a task"
         autoCorrect="off"
         autoCapitalize="none"
         autoComplete="off"
         onFocus={handleOnFocus}
-        onBlur={handleOnBlur}
         opened={open}
         onChange={(e) => setText(e.target.value)}
         value={text}
       />
       {open && (
-        <StyledButton primary onClick={handleSave}>
-          {!loading ? 'Save' : <Loader color={'#ffffff'} loading={loading} size={10} />}
-        </StyledButton>
+        <Actions>
+          <StyledButton onClick={handleClose}>Close</StyledButton>
+          <StyledButton primary onClick={handleSave}>
+            {!loading ? 'Save' : <Loader color={'#ffffff'} loading={loading} size={10} />}
+          </StyledButton>
+        </Actions>
       )}
     </Box>
   );
